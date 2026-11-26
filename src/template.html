@@ -76,21 +76,21 @@
             <label for="location">type your location:</label>
             <div><input type="text" id="location"><button>hi</button></div>
             <div>
-                <input type="checkbox" id="dateCheckbox">
-                <label for="dateCheckbox">Include dates</label>
+                <input type="checkbox" id="include-dates">
+                <label for="include-dates">Include dates</label>
             </div>
             <label for="date1">From:</label>
             <input type="date" id="date1" disabled>
             <label for="date2">To:</label>
             <input type="date" id="date2" disabled>
-            <fieldset>
+            <fieldset id="units-system-fieldset">
                 <legend>Units system:</legend>
-                <input type="radio" id="metric" value="metric" checked>
+                <input type="radio" id="metric" name="unit-system" value="metric" checked>
                 <label for="metric">Metric(℃)</label>
-                <input type="radio" id="us" value="us">
+                <input type="radio" id="us" name="unit-system" value="us">
                 <label for="us">US(℉)</label>
             </fieldset>
-            <fieldset>
+            <fieldset id="other-fields-fieldset">
                 <legend>Other Fields:</legend>
                 <input type="checkbox" id="precipprob" value="precipprob" checked>
                 <label for="precipprob">Preciptations Probability</label>

@@ -1,7 +1,9 @@
 import "./style.css";
 import display from "./displayController.js"
 
-display()
+const displayController = display()
+console.log(displayController.params)
+
 
 async function getWeather(url){
     const response = await fetch(url)
