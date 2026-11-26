@@ -1,4 +1,7 @@
 import "./style.css";
+import display from "./displayController.js"
+
+display()
 
 async function getWeather(url){
     const response = await fetch(url)
@@ -57,4 +60,4 @@ async function mainFlow(){
     console.log(desirableData)
 }
 
-mainFlow()
+// mainFlow()

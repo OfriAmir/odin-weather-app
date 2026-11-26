@@ -6,6 +6,106 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <header>
+        <span>My Weather App</span>
+        <div class="header-btns-wrapper">
+            <button class="get-weather">Get Weather</button>
+            <button class="change-param-btn">Change Parameters</button>
+        </div>
+    </header>
+    <main>
+        <div class="current-conditions-div">
+            <h1><span class="location">London</span><span class="temp">26℃</span></h1>
+            <span>Preciptation Probability: 50%</span>
+            <span class="icon"></span>
+        </div>
+        <div class="days-div">
+            <div>
+                <h2>day</h2>
+                <span>26℃</span><span class="icon"></span>
+                <ul>
+                    <li>Preciptation Probability: 50%</li>
+                </ul>
+            </div>
+            <div>
+                <h2>day</h2>
+                <span>26℃</span><span class="icon"></span>
+                <ul>
+                    <li>Preciptation Probability: 50%</li>
+                </ul>
+            </div>
+            <div>
+                <h2>day</h2>
+                <span>26℃</span><span class="icon"></span>
+                <ul>
+                    <li>Preciptation Probability: 50%</li>
+                </ul>
+            </div>
+            <div>
+                <h2>day</h2>
+                <span>26℃</span><span class="icon"></span>
+                <ul>
+                    <li>Preciptation Probability: 50%</li>
+                </ul>
+            </div>
+            <div>
+                <h2>day</h2>
+                <span>26℃</span><span class="icon"></span>
+                <ul>
+                    <li>Preciptation Probability: 50%</li>
+                </ul>
+            </div>
+            <div>
+                <h2>day</h2>
+                <span>26℃</span><span class="icon"></span>
+                <ul>
+                    <li>Preciptation Probability: 50%</li>
+                </ul>
+            </div>
+            <div>
+                <h2>day</h2>
+                <span>26℃</span><span class="icon"></span>
+                <ul>
+                    <li>Preciptation Probability: 50%</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <dialog class="change-param-dialog" popover>
+        <form action="#" class="change-param-form">
+            <label for="location">type your location:</label>
+            <div><input type="text" id="location"><button>hi</button></div>
+            <div>
+                <input type="checkbox" id="dateCheckbox">
+                <label for="dateCheckbox">Include dates</label>
+            </div>
+            <label for="date1">From:</label>
+            <input type="date" id="date1" disabled>
+            <label for="date2">To:</label>
+            <input type="date" id="date2" disabled>
+            <fieldset>
+                <legend>Units system:</legend>
+                <input type="radio" id="metric" value="metric" checked>
+                <label for="metric">Metric(℃)</label>
+                <input type="radio" id="us" value="us">
+                <label for="us">US(℉)</label>
+            </fieldset>
+            <fieldset>
+                <legend>Other Fields:</legend>
+                <input type="checkbox" id="precipprob" value="precipprob" checked>
+                <label for="precipprob">Preciptations Probability</label>
+                <input type="checkbox" id="humidity" value="humidity">
+                <label for="humidity">Humidity</label>
+                <input type="checkbox" id="tempmax" value="tempmax">
+                <label for="tempmax">Max Temp.</label>
+                <input type="checkbox" id="tempmin" value="tempmin">
+                <label for="tempmin">Min Temp.</label>
+            </fieldset>
+            <div class="btns-wrapper">
+                <button type="button">Cancel</button>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>
