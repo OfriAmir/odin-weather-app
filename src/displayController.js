@@ -6,8 +6,11 @@ import { getWeather } from "./data.js"
 // });
 
 // console.log(images.keys())
-import menuDownSVG from "./images/menu-down.svg"
-import menuUpSVG from "./images/menu-up.svg"
+import menuDownImg from "./images/menu-down.svg"
+import menuUpImg from "./images/menu-up.svg"
+import rainImg from "./images/rain.png"
+import cloudySunnyImg from "./images/cloudy-sunny.png"
+
 export default function displayController() {
     const params = (() => {
         let location = "New York"
@@ -53,6 +56,13 @@ export default function displayController() {
     
     refs.weatherCards[0].menuBtn = refs.weatherCards[0].querySelector(".menu-icon")
     refs.weatherCards[1].menuBtn = refs.weatherCards[1].querySelector(".menu-icon")
+    for (let card of refs.weatherCards){
+        card["date"] = card.querySelector(".date");
+        card["temp"] = card.querySelector(".temp");
+        card["weatherIcon"] = card.querySelector(".weather-icon");
+        card["additionalConditionsUl"] = card.querySelector(".additional-conditions-ul")
+        card["additionalConditionsLis"] = [];
+    }
 
 
 
@@ -72,9 +82,42 @@ export default function displayController() {
         }, [])
     }
     
-    // function displayWeather() {
+    function displayWeather() {
+        refs.weatherCards.forEach((card, index) => {
+            console.log(card.date)
+            card.date.textContent = weather.days[index].datetime
+            card.temp.textContent = weather.days[index].temp
+            const icon = weather.days[index].icon
+            if (icon === "rain"){
+                card.weatherIcon.style.backgroundImage = `url(${rainImg})`
+            } else if (icon === "partly-cloudy-day") {
+                card.weatherIcon.style.backgroundImage = `url(${cloudySunnyImg})`
+            }
+            const lis = [...card.additionalConditionsUl.children]
+            console.log(lis)
+            if (lis) {
+                lis.forEach(li => li.remove())
+            }
+            const allConditionsKeys = Object.keys(weather.days[index])
+            const additionalConditionsKeys = allConditionsKeys.filter(key => {
+                if (!(key === "datetime" || key === "temp" || key === "icon" || key === "hours")){
+                    return true
+                }
+            })
+            additionalConditionsKeys.forEach(key => {
+                const li = document.createElement("li")
+                li.classList.add("additional-condition")
+                li.textContent = weather.days[index][key]
+                card.additionalConditionsUl.appendChild(li)
+            })
+        })
+    }
 
-    // }
+
+
+
+
+
 
     const eventController = (function() {
         refs.changeParamBtn.addEventListener("click", () => {
@@ -85,16 +128,17 @@ export default function displayController() {
             refs.dialog.close()
         })
 
-        refs.dialog.form.addEventListener("submit", (e) => {
+        refs.dialog.form.addEventListener("submit", async (e) => {
             e.preventDefault()
             setCachesFromChangeParamsForm()
-            weather = getWeather(params)
+            weather = await getWeather(params)
+            displayWeather()
 
         })
 
-        refs.getWeatherBtn.addEventListener("click", () => {
-            weather = getWeather(params)
-            console.log(weather)
+        refs.getWeatherBtn.addEventListener("click", async () => {
+            weather = await getWeather(params)
+            displayWeather()
         })
 
         refs.dialog.includeDatesInput.addEventListener("change", () => {
@@ -113,11 +157,11 @@ export default function displayController() {
         refs.weatherCards[0].menuBtn.addEventListener("click", () => {
             if (menusCache.day1Menu.self === "closed"){
                 menusCache.day1Menu.self = "opened"
-                refs.weatherCards[0].menuBtn.style.backgroundImage = `url(${menuUpSVG})`
+                refs.weatherCards[0].menuBtn.style.backgroundImage = `url(${menuUpImg})`
                 refs.extensionDivs[0].removeAttribute("hidden")
             } else if (menusCache.day1Menu.self === "opened"){
                 menusCache.day1Menu.self = "closed"
-                refs.weatherCards[0].menuBtn.style.backgroundImage = `url(${menuDownSVG})`
+                refs.weatherCards[0].menuBtn.style.backgroundImage = `url(${menuDownImg})`
                 refs.extensionDivs[0].setAttribute("hidden", "")
             }
         })
@@ -125,11 +169,11 @@ export default function displayController() {
         refs.weatherCards[1].menuBtn.addEventListener("click", () => {
             if (menusCache.day2Menu.self === "closed"){
                 menusCache.day2Menu.self = "opened"
-                refs.weatherCards[1].menuBtn.style.backgroundImage = `url(${menuUpSVG})`
+                refs.weatherCards[1].menuBtn.style.backgroundImage = `url(${menuUpImg})`
                 refs.extensionDivs[1].removeAttribute("hidden")
             } else if (menusCache.day2Menu.self === "opened"){
                 menusCache.day2Menu.self = "closed"
-                refs.weatherCards[1].menuBtn.style.backgroundImage = `url(${menuDownSVG})`
+                refs.weatherCards[1].menuBtn.style.backgroundImage = `url(${menuDownImg})`
                 refs.extensionDivs[1].setAttribute("hidden", "")
             }
         })

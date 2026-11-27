@@ -62,9 +62,9 @@ function filterDesirableWeatherData(weatherData, additionalConditions = []){
 async function getWeather(obj){
     const queryUrl = createQueryUrl(obj.location, obj.date1, `unitGroup=${obj.unitSystem}`, "includes=hours,days")
     const weatherData = await getWeatherDataFromAPI(queryUrl)
-    console.log(weatherData)
     const desirableData = filterDesirableWeatherData(weatherData, obj.additionalConditions)
-    console.log(desirableData)
+    // console.log(desirableData)
+    return desirableData
 }
 
 export {getWeather}
