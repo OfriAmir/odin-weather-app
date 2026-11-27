@@ -10,9 +10,6 @@ function createQueryUrl(location, date1, ...rest){
     let returnedUrl = `${basicUrl}${location}`
     if (date1) {
         returnedUrl = returnedUrl + "/" + date1
-        // if (date2){
-        //     returnedUrl = returnedUrl + "/" + date2
-        // }
     }
     returnedUrl = returnedUrl + "?"
     rest.forEach(para => {
@@ -25,7 +22,6 @@ function getDefaultConditionsObj(target) {
     return {
         datetime: target.datetime,
         temp: target.temp,
-        // precipprob: target.precipprob,
         icon: target.icon,
     }
 }
@@ -33,20 +29,26 @@ function filterDesirableWeatherData(weatherData, additionalConditions = []){
     const location = weatherData.address
     let currentConditions = getDefaultConditionsObj(weatherData.currentConditions)
     for (let condition of additionalConditions){
-        currentConditions[condition] = weatherData.currentConditions[condition]
+        if (Object.hasOwn(weatherData.currentConditions, condition)){
+            currentConditions[condition] = weatherData.currentConditions[condition]
+        }
     }
     let days = []
     for (let day of weatherData.days) {
         let dayData = getDefaultConditionsObj(day)
         for (let condition of additionalConditions){
-            dayData[condition] = day[condition]
+            if (Object.hasOwn(day, condition)){
+                dayData[condition] = day[condition]
+            }
         }        
         if (day.hours) {
             dayData.hours = []
             for (let hour of day.hours) {
                 const hourData = getDefaultConditionsObj(hour)
                 for (let condition of additionalConditions){
-                    hourData[condition] = hour[condition]
+                    if (Object.hasOwn(hour, condition)){
+                        hourData[condition] = hour[condition]
+                    }
                 }                 
                 dayData.hours.push(hourData)
             }
@@ -60,9 +62,9 @@ function filterDesirableWeatherData(weatherData, additionalConditions = []){
 async function getWeather(obj){
     const queryUrl = createQueryUrl(obj.location, obj.date1, `unitGroup=${obj.unitSystem}`, "includes=hours,days")
     const weatherData = await getWeatherDataFromAPI(queryUrl)
+    console.log(weatherData)
     const desirableData = filterDesirableWeatherData(weatherData, obj.additionalConditions)
     console.log(desirableData)
 }
-// mainFlow()
 
 export {getWeather}

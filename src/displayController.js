@@ -1,5 +1,13 @@
 import { getWeather } from "./data.js"
+// const images = import.meta.webpackContext("./images", {
+//   recursive: true,
+//   regExp: /^\.\/.*$/,
+//   mode: "sync",
+// });
 
+// console.log(images.keys())
+import menuDownSVG from "./images/menu-down.svg"
+import menuUpSVG from "./images/menu-up.svg"
 export default function displayController() {
     const params = (() => {
         let location = "New York"
@@ -10,13 +18,28 @@ export default function displayController() {
         return {location, IncludeDate, date1, unitSystem, additionalConditions, }
     })()
     let weather = null
+    let menusCache = {
+        day1Menu: {
+            self: "closed",
+            hoursMenus: []
+        },
+        day2Menu: {
+            self: "closed",
+            hoursMenus: []
+        }
+    }
+    for (let i=0; i<24; i++){
+        menusCache.day1Menu.hoursMenus.push("closed")
+        menusCache.day2Menu.hoursMenus.push("closed")
+    }
 
     let refs = {
         body: document.querySelector("body"),
         dialog: document.querySelector(".change-param-dialog"),
         changeParamBtn: document.querySelector(".change-param-btn"),
-        getWeatherBtn: document.querySelector(".get-weather-btn")
-
+        getWeatherBtn: document.querySelector(".get-weather-btn"),
+        weatherCards: [...document.querySelectorAll(".weather-card")],
+        extensionDivs: [...document.querySelectorAll(".extension-div")]
     }
 
     refs.dialog.form = refs.dialog.querySelector(".change-param-form")
@@ -28,6 +51,14 @@ export default function displayController() {
     refs.dialog.cancelBtn = refs.dialog.querySelector("button[type=button]")
     refs.dialog.SubmitBtn = refs.dialog.querySelector("button[type=cancel]")
     
+    refs.weatherCards[0].menuBtn = refs.weatherCards[0].querySelector(".menu-icon")
+    refs.weatherCards[1].menuBtn = refs.weatherCards[1].querySelector(".menu-icon")
+
+
+
+
+
+
     function setCachesFromChangeParamsForm () {
         params.location = refs.dialog.locationInput.value
         params.IncludeDate = refs.dialog.includeDatesInput.checked
@@ -66,7 +97,6 @@ export default function displayController() {
             console.log(weather)
         })
 
-
         refs.dialog.includeDatesInput.addEventListener("change", () => {
             if (refs.dialog.includeDatesInput.checked) {                
                 refs.dialog.date1Input.removeAttribute("disabled")
@@ -77,6 +107,30 @@ export default function displayController() {
                 refs.dialog.date1Input.value = ""
                 refs.dialog.date2Input.setAttribute("disabled", "")
                 refs.dialog.date2Input.value = ""
+            }
+        })
+
+        refs.weatherCards[0].menuBtn.addEventListener("click", () => {
+            if (menusCache.day1Menu.self === "closed"){
+                menusCache.day1Menu.self = "opened"
+                refs.weatherCards[0].menuBtn.style.backgroundImage = `url(${menuUpSVG})`
+                refs.extensionDivs[0].removeAttribute("hidden")
+            } else if (menusCache.day1Menu.self === "opened"){
+                menusCache.day1Menu.self = "closed"
+                refs.weatherCards[0].menuBtn.style.backgroundImage = `url(${menuDownSVG})`
+                refs.extensionDivs[0].setAttribute("hidden", "")
+            }
+        })
+
+        refs.weatherCards[1].menuBtn.addEventListener("click", () => {
+            if (menusCache.day2Menu.self === "closed"){
+                menusCache.day2Menu.self = "opened"
+                refs.weatherCards[1].menuBtn.style.backgroundImage = `url(${menuUpSVG})`
+                refs.extensionDivs[1].removeAttribute("hidden")
+            } else if (menusCache.day2Menu.self === "opened"){
+                menusCache.day2Menu.self = "closed"
+                refs.weatherCards[1].menuBtn.style.backgroundImage = `url(${menuDownSVG})`
+                refs.extensionDivs[1].setAttribute("hidden", "")
             }
         })
     })() 
