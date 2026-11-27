@@ -9,7 +9,7 @@
     <header>
         <span>My Weather App</span>
         <div class="header-btns-wrapper">
-            <button class="get-weather">Get Weather</button>
+            <button class="get-weather-btn">Get Weather</button>
             <button class="change-param-btn">Change Parameters</button>
         </div>
     </header>
@@ -81,16 +81,14 @@
             </div>
             <label for="date1">From:</label>
             <input type="date" id="date1" disabled>
-            <label for="date2">To:</label>
-            <input type="date" id="date2" disabled>
-            <fieldset id="units-system-fieldset">
+            <fieldset id="unit-system-fieldset">
                 <legend>Units system:</legend>
                 <input type="radio" id="metric" name="unit-system" value="metric" checked>
                 <label for="metric">Metric(℃)</label>
                 <input type="radio" id="us" name="unit-system" value="us">
                 <label for="us">US(℉)</label>
             </fieldset>
-            <fieldset id="other-fields-fieldset">
+            <fieldset id="additional-conditions-fieldset">
                 <legend>Other Fields:</legend>
                 <input type="checkbox" id="precipprob" value="precipprob" checked>
                 <label for="precipprob">Preciptations Probability</label>
